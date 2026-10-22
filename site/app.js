@@ -25,7 +25,7 @@ const GROUPS = [
 ];
 const SPEECH = ["Speech", "Male speech, man speaking", "Female speech, woman speaking", "Narration, monologue", "Conversation", "Speech synthesizer", "Child speech, kid speaking"];
 const CHIME = ["Chime", "Ding-dong", "Doorbell", "Ding", "Bell", "Jingle bell", "Wind chime", "Tubular bells", "Glockenspiel", "Vibraphone", "Change ringing (campanology)", "Church bell", "Bicycle bell", "Sine wave", "Tuning fork"];
-const KO = { Speech: "말소리", "Male speech, man speaking": "남자 말소리", "Female speech, woman speaking": "여자 말소리", Music: "음악", Siren: "사이렌", "Ambulance (siren)": "구급차 사이렌", "Emergency vehicle": "긴급차량", "Civil defense siren": "민방위 사이렌", Chime: "차임", "Ding-dong": "딩동", Bell: "종소리", Crowd: "군중", "Hubbub, speech noise, speech babble": "웅성임", "Hair dryer": "드라이어", "Vacuum cleaner": "청소기", "White noise": "백색소음", "Pink noise": "잡음", Silence: "조용함", Inside: "실내", "Inside, small room": "작은 방", "Inside, large room or hall": "넓은 실내", "Baby cry, infant cry": "아기 울음", Screaming: "비명", Shout: "고함", Alarm: "경보", Buzzer: "버저", "Beep, bleep": "삐 소리", "Narration, monologue": "낭독", Television: "TV", "Background music": "배경음악", Piano: "피아노", "Sine wave": "순음", Static: "잡음", "Mechanical fan": "환풍기", Engine: "엔진", Vehicle: "차량", "Speech synthesizer": "합성 음성", "Musical instrument": "악기", "Electronic music": "전자음악", Synthesizer: "신시사이저", "Tuning fork": "순음", Glockenspiel: "글로켄슈필", Vibraphone: "비브라폰", "Wind chime": "풍경", "Air conditioning": "에어컨", "Child speech, kid speaking": "아이 말소리", Whistle: "호루라기", Conversation: "대화" };
+const KO = { Speech: "말소리", "Male speech, man speaking": "남자 말소리", "Female speech, woman speaking": "여자 말소리", Music: "음악", Siren: "사이렌", "Ambulance (siren)": "구급차 사이렌", "Emergency vehicle": "긴급차량", "Civil defense siren": "민방위 사이렌", Chime: "차임", "Ding-dong": "딩동", Bell: "종소리", Crowd: "군중", "Hubbub, speech noise, speech babble": "웅성임", "Hair dryer": "드라이어", "Vacuum cleaner": "청소기", "White noise": "백색소음", "Pink noise": "잡음", Silence: "조용함", Inside: "실내", "Inside, small room": "작은 방", "Inside, large room or hall": "넓은 실내", "Baby cry, infant cry": "아기 울음", Screaming: "비명", Shout: "고함", Alarm: "경보", Buzzer: "버저", "Beep, bleep": "삐 소리", "Narration, monologue": "낭독", Television: "TV", "Background music": "배경음악", Piano: "피아노", "Sine wave": "순음", Static: "잡음", "Mechanical fan": "환풍기", Engine: "엔진", Vehicle: "차량", "Speech synthesizer": "합성 음성", "Musical instrument": "악기", "Electronic music": "전자음악", Synthesizer: "신시사이저", "Tuning fork": "순음", Glockenspiel: "글로켄슈필", Vibraphone: "비브라폰", "Wind chime": "풍경", "Air conditioning": "에어컨", "Child speech, kid speaking": "아이 말소리", Whistle: "호루라기", Conversation: "대화", "Police car (siren)": "경찰차 사이렌", "Fire engine, fire truck (siren)": "소방차 사이렌", Theremin: "테레민(높은 떨림음)", Noise: "잡음", Howl: "울부짖는 소리", "Car alarm": "차 경보", "Smoke detector, smoke alarm": "화재경보", "Alarm clock": "알람시계", Telephone: "전화벨", Ringtone: "벨소리", "Crying, sobbing": "울음", Blender: "믹서기", "Electric shaver, electric razor": "면도기", Drill: "드릴", Hammer: "망치", Applause: "박수", Cheering: "환호", Chatter: "수다", Babbling: "옹알이", "Pop music": "가요", "Children playing": "아이들 노는 소리", "Traffic noise, roadway noise": "차 소리", Keyboard: "키보드", "Keyboard (musical)": "건반", Ding: "딩", Doorbell: "초인종", "Jingle bell": "방울", "Tubular bells": "관종", "Church bell": "교회 종", "Bicycle bell": "자전거 벨", Wail: "울부짖음", Rumble: "웅웅 소리", Hum: "윙 소리", Microwave: "전자레인지", "Change ringing (campanology)": "종소리" };
 
 const SENS_ITEMS = [
   { id: "alarm", ko: "경보음·사이렌", hint: "화재경보, 구급차, 삐 소리" },
@@ -162,9 +162,9 @@ function tick() {
     if (!last || t - last.t > 2500) { onset = true; events.push({ k: "onset", t }); session.onsets++; }
   }
   if (raw.chime > 0.12) events.push({ k: "chime", t });
-  const chimeRecent = events.some((e) => e.k === "chime" && t - e.t < 5000);
+  const chimeRecent = events.some((e) => e.k === "chime" && t - e.t < 8000);
   const onsetRecent = events.some((e) => e.k === "onset" && t - e.t < 2000);
-  let announce = raw.speech > 0.35 && (chimeRecent || onsetRecent);
+  let announce = raw.speech > 0.3 && (chimeRecent || onsetRecent);
   if (announce) { const la = events.filter((e) => e.k === "announce").pop(); if (!la || t - la.t > 6000) { events.push({ k: "announce", t }); session.announce++; } }
   events = events.filter((e) => t - e.t < 60000);
   const announceOn = events.some((e) => e.k === "announce" && t - e.t < 4000);
@@ -324,7 +324,15 @@ function cell(cd, dow, h) {
   const crowd = crowdAt(cd, dow, h);
   const os = placeObs(cd);
   const crowdW = clamp(crowd * weight("crowd"));
-  if (!os.length) return { crowd, comp: null, est: true, measured: false, caution: null, main: "주변 지역 혼잡" };
+  const st = FC.forecast[cd] && FC.forecast[cd].street;
+  const streetDb = st ? st.db[dow][h] : null;
+  const streetIdx = st ? clamp(((streetDb - 50) / 35) * 100 * weight("steady")) : null;
+  if (!os.length) {
+    if (!st) return { crowd, comp: null, est: true, measured: false, caution: null, main: "주변 지역 혼잡" };
+    const sp = [["주변 지역 혼잡", crowdW], ["거리 소음", streetIdx]];
+    const t2 = sp.reduce((a, b) => (b[1] > a[1] ? b : a));
+    return { crowd, comp: t2[1], main: t2[0], est: false, measured: false, street: true, streetDb, streetN: st.n, caution: null };
+  }
   // 같은 평일/주말 · ±1시간 실측이 있으면 실측, 없으면 혼잡 모양으로 보간한 추정
   const same = os.filter((o) => isOff(o.dow) === isOff(dow) && Math.abs(o.hour - h) <= 1);
   let loud, measured;
@@ -337,19 +345,21 @@ function cell(cd, dow, h) {
   const lightVals = os.map((o) => o.light).filter((x) => x != null);
   const light = lightVals.length ? Math.max(...lightVals) : null;
   const parts = [["주변 지역 혼잡", crowdW], ["소리 크기", loud], ["소리 종류·돌발성", type]];
+  if (st) parts.push(["거리 소음", streetIdx]);
   if (light != null) parts.push(["밝기", light]);
   const top = parts.reduce((a, b) => (b[1] > a[1] ? b : a));
   const groups = new Set(os.flatMap((o) => o.groups.concat(o.onsets ? ["onset"] : [])));
   let caution = null;
   for (const it of SENS_ITEMS) if (sens(it.id) === 2 && groups.has(it.id)) { caution = it; break; }
   if (!caution && sens("light") === 2 && light == null) caution = { id: "light", ko: "빛(아직 못 잼)" };
-  return { crowd, comp: top[1], main: top[0], est: !measured, measured, caution, loud, type, light, groups };
+  return { crowd, comp: top[1], main: top[0], est: !measured, measured, own: true, street: !!st, streetDb, streetN: st && st.n, caution, loud, type, light, groups };
 }
 
 function verdictOf(c) {
-  if (c.comp == null) return { cls: "unknown", title: "정보 부족", body: "이 장소의 소리·빛 정보가 아직 없어요. 종합 지수는 보류하고 주변 지역 혼잡만 보여 줘요." };
+  if (c.comp == null) return { cls: "unknown", title: "정보 부족", body: "거리 소음 센서도 현장 기록도 아직 없어요. 종합 지수는 보류하고 주변 지역 혼잡만 보여 줘요." };
   const lv = level(c.comp);
   if (c.caution) return { cls: "caution", title: "주의 · " + c.caution.ko, body: "우리 아이가 매우 민감한 자극이 이 장소에서 잡혔어요. 다른 값이 낮아도 무던함으로 추천하지 않아요." };
+  if (c.street && !c.own) return { cls: lv.i === 2 ? "caution" : "", title: (lv.i === 0 ? "덜 힘든 편" : lv.word) + " (거리 기준)", body: "거리 소음 센서(S-DoT)와 혼잡 예측 중 더 힘든 쪽 값이에요(주 요인: " + c.main + "). 안쪽 방송·기계음 같은 소리 종류는 아직 몰라서, 직접 재기 전에는 무던함으로 추천하지 않아요. 현장에서 '지금 여기 소리 듣기'로 확인하세요." };
   if (lv.i === 0 && c.est) return { cls: "", title: "무던함 후보 (추정)", body: "이 시간엔 직접 잰 기록이 없어 혼잡 예측으로 짐작한 값이에요. 실측 전까지 무던함으로 추천하지 않아요." };
   return { cls: lv.i === 2 ? "caution" : "", title: lv.word + (c.est ? " (추정)" : " (실측)"), body: "주 요인: " + c.main };
 }
@@ -373,13 +383,15 @@ async function initMap() {
   const hr = $("#hour"); hr.value = sel.hour;
   hr.addEventListener("input", () => { sel.hour = +hr.value; drawMarkers(); refreshSheet(); });
   map = L.map("map", { zoomControl: false, attributionControl: true }).setView([37.548, 126.99], 11);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", { maxZoom: 18, attribution: '&copy; OpenStreetMap &copy; CARTO' }).addTo(map);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
   L.control.zoom({ position: "bottomright" }).addTo(map);
   layer = L.layerGroup().addTo(map);
   drawMarkers();
 }
 function selDow() { const d = new Date(); d.setDate(d.getDate() + sel.day); return (d.getDay() + 6) % 7; }
 const SHADE = ["#e8eee9", "#b9cbbf", "#6f8f80", "#2c4a3f"];
+// 색: 종합이 있으면 종합(0~24/25~39/40~69/70~), 없으면 혼잡 4단계
+function level4(c) { if (c.comp == null) return null; return c.comp < 25 ? 0 : c.comp < 40 ? 1 : c.comp < 70 ? 2 : 3; }
 function drawMarkers() {
   if (!layer) return;
   layer.clearLayers();
@@ -389,10 +401,10 @@ function drawMarkers() {
     if (sel.cat !== "전체" && p.cat !== sel.cat) continue;
     if (!FC.forecast[cd]) continue;
     const lv = crowdLv(cd, dow, h), c = cell(cd, dow, h);
-    const has = c.comp != null;
+    const own = !!c.own, has = c.comp != null;
     const m = L.circleMarker([p.lat, p.lng], {
-      radius: has ? 11 : 9, color: c.caution ? "#9a3b1c" : has ? "#1f2421" : "#55605a", weight: has ? 3 : 1.5,
-      dashArray: has ? null : "3 3", fillColor: SHADE[lv], fillOpacity: 0.95,
+      radius: own ? 11 : 9, color: c.caution ? "#9a3b1c" : own ? "#1f2421" : "#55605a", weight: own ? 3.5 : 1.5,
+      dashArray: has ? null : "3 3", fillColor: SHADE[level4(c) ?? lv], fillOpacity: 0.95,
     }).addTo(layer);
     m.bindTooltip(p.nm, { permanent: map.getZoom() >= 13, direction: "right", className: "lbl", offset: [8, 0] });
     m.on("click", () => openPlace(cd));
@@ -417,7 +429,7 @@ function refreshSheet() {
   for (let k = 7; k <= 22; k++) {
     const ck = cell(cd, dow, k);
     const val = ck.comp != null ? ck.comp : ck.crowd;
-    bars.push(`<div class="c ${k === h ? "sel" : ""} ${ck.measured ? "meas" : ""}" title="${k}시 ${Math.round(val)}"><i class="${ck.measured ? "" : "est"}" style="height:${Math.max(4, val)}%"></i></div>`);
+    bars.push(`<div class="c ${k === h ? "sel" : ""} ${ck.measured ? "meas" : ""}" title="${k}시 ${Math.round(val)}"><i class="${ck.measured || ck.street ? "" : "est"}" style="height:${Math.max(4, val)}%"></i></div>`);
   }
   // 덜 붐비는 시간 3개
   const cand = [];
@@ -432,17 +444,18 @@ function refreshSheet() {
   const gl = c.groups ? [...c.groups].filter((g) => g !== "steady").map((g) => SENS_ITEMS.find((s) => s.id === g)?.ko).filter(Boolean) : [];
   $("#sheetBody").innerHTML = `
     <h2>${p.nm}</h2>
-    <span class="tag">${p.cat}</span>${os.length ? `<span class="tag">소리 기록 ${os.length}건</span>` : `<span class="tag">소리 정보 없음</span>`}${c.caution ? `<span class="tag warn">주의</span>` : ""}
+    <span class="tag">${p.cat}</span>${os.length ? `<span class="tag">소리 기록 ${os.length}건</span>` : `<span class="tag">${c.street ? "거리 센서만" : "소리 정보 없음"}</span>`}${c.caution ? `<span class="tag warn">주의</span>` : ""}
     <div class="verdict ${v.cls}"><span class="kicker">${dayName} ${h}시 · 종합</span><b>${v.title}${c.comp != null ? " · " + Math.round(c.comp) : ""}</b><span>${v.body}</span></div>
-    <div class="kicker">${dayName} 시간대별 (7시~22시) · 빗금 = 추정, 진한 막대 = 실측</div>
+    <div class="kicker">${dayName} 시간대별 (7시~22시) · 빗금 = 추정, 막대 = 센서·실측</div>
     <div class="chart">${bars.join("")}<div class="th" style="bottom:40%">40</div><div class="th" style="bottom:70%">70</div></div>
     <div class="axis"><span>7시</span><span>12시</span><span>17시</span><span>22시</span></div>
     <p class="best">덜 붐비는 시간: <b>${bestTxt}</b> ${anyMeasuredCalm ? "" : "<small>(후보 · 실측으로 확인되면 무던함으로 바뀌어요)</small>"}</p>
     <div class="rows">
       <div><span>주변 지역 혼잡 (예측)</span><b>${LVW[crowdLv(cd, dow, h)]} · ${c.crowd}</b></div>
       ${live ? `<div><span>서울시 실시간 (${live.time.slice(11, 16)})</span><b>${live.lvl}</b></div>` : ""}
-      <div><span>소리 크기</span><b>${c.loud != null ? Math.round(c.loud) + (c.measured ? " (실측)" : " (추정)") : "모름"}</b></div>
-      <div><span>소리 종류·돌발성</span><b>${c.type != null ? Math.round(c.type) + (gl.length ? " · " + gl.join(", ") : "") : "모름"}</b></div>
+      <div><span>거리 소음 (S-DoT 센서${c.streetN ? " " + c.streetN + "대" : ""})</span><b>${c.streetDb != null ? c.streetDb + " dB" : "센서 없음"}</b></div>
+      <div><span>매장 안 소리 크기 (현장 기록)</span><b>${c.loud != null ? Math.round(c.loud) + (c.measured ? " (실측)" : " (추정)") : "모름"}</b></div>
+      <div><span>소리 종류·돌발성 (현장 기록)</span><b>${c.type != null ? Math.round(c.type) + (gl.length ? " · " + gl.join(", ") : "") : "모름"}</b></div>
       <div><span>밝기 / 깜빡임</span><b>${c.light != null ? c.light : "미측정"} / 미측정</b></div>
       <div><span>보호자 후기</span><b>${fbs.length ? `괜찮았어요 ${okN} · 힘들었어요 ${hardN}` : "아직 없음"}</b></div>
     </div>
@@ -474,19 +487,19 @@ const ICON = {
 function storyLines(cd) {
   const p = FC.places[cd], dow = selDow(), h = sel.hour, c = cell(cd, dow, h);
   const dayName = $$("#days button")[sel.day]?.textContent || "오늘";
-  const enter = { "공원": ["bench", "넓은 길을 따라 천천히 걸어요."], "고궁·문화유산": ["ticket", "입구에서 표를 보여 주고 들어가요."], "발달상권": ["door", "가게 문을 밀고 들어가요."], "관광특구": ["door", "가게 문을 밀고 들어가요."], "인구밀집지역": ["train", "역에서 개찰구를 지나 나가요."] }[p.cat] || ["door", "문을 밀고 들어가요."];
+  const enter = { "공원": ["bench", "넓은 길을 따라 천천히 걸어요."], "고궁·문화유산": ["ticket", "입구에서 표를 보여 주고 들어가요."], "발달상권": ["door", "가게 문을 밀고 들어가요."], "관광특구": ["bench", "거리를 따라 천천히 걸어요."], "인구밀집지역": ["train", "역에서 개찰구를 지나 나가요."] }[p.cat] || ["door", "문을 밀고 들어가요."];
   let expect;
   if (c.groups && c.groups.has("announce")) expect = ["speaker", "안내방송이 나올 수 있어요. 딩동 소리가 먼저 나요."];
   else if (c.groups && c.groups.has("alarm")) expect = ["speaker", "삐 소리나 사이렌이 들릴 수 있어요."];
   else if (c.groups && c.groups.has("machine")) expect = ["speaker", "화장실에서 드라이어 소리가 날 수 있어요."];
-  else if (crowdLv(cd, dow, h) >= 2) expect = ["people", "사람이 많을 수 있어요. 엄마 옆에서 걸어요."];
+  else if (crowdLv(cd, dow, h) >= 2) expect = ["people", "사람이 많을 수 있어요. 어른 옆에서 걸어요."];
   else expect = ["calm", "사람이 많지 않을 수 있어요."];
   const saved = store.get("cards", {})[cd];
   const lines = [
     ["go", `${dayName} ${h}시에 ${p.nm}에 가요.`],
     enter, expect,
     ["phones", "소리가 크면 헤드폰을 써요."],
-    ["hand", "힘들면 엄마 손을 두 번 꼭 잡아요. 그러면 조용한 곳으로 가요."],
+    ["hand", "힘들면 같이 온 어른 손을 두 번 꼭 잡아요. 그러면 조용한 곳으로 가요."],
   ];
   if (saved) saved.forEach((t, i) => { if (lines[i] && t) lines[i][1] = t; });
   return lines;
@@ -547,6 +560,7 @@ async function renderAbout() {
   <li>521종을 경보음 · 사람의 큰 소리 · 기계음 · 웅성임/음악 묶음으로 나눴습니다(답변서 질의3 순서).</li>
   <li>안내방송은 따로 학습된 항목이 없어, '차임 뒤 말소리' 또는 '갑자기 커진 말소리'로 추정합니다.</li>
   <li>갑자기 커짐 = 최근 1분 바닥 소음(LA90)보다 1초 안에 10dB 이상 오를 때.</li>
+  <li>시험: 공개 소리 자료 ESC-50(5초 2,000개, 50종)을 이 앱과 같은 코드로 돌렸습니다. 맞힌 비율 사이렌 100% · 아기 울음 97.5% · 알람시계 92.5% · 청소기 80%. 다른 소리에 잘못 울린 비율 경보음 1.6% · 사람 큰 소리 1.8% · 기계음 2.9%. 결과 파일: model/esc50_result.json</li>
   <li>원음은 어디에도 저장·전송하지 않습니다. 기록에는 장소·시각·묶음 이름·부담값만 남습니다.</li></ul>
   <h3>2. 언제 덜 붐비는지 예측</h3>
   <ul><li>서울 생활인구(행정동, 2026년 5~7월, 92일×24시간)를 서울시 주요 120장소 영역에 넓이 비율로 나눠 담았습니다(서울대공원은 과천이라 제외).</li>
@@ -554,23 +568,27 @@ async function renderAbout() {
   <table><tr><th>방법</th><th>오차(MAPE)</th><th>4단계 맞춤</th><th>낮게 안내</th><th>붐빔 잡음</th></tr>
   ${row("gbdt", "LightGBM")}${row("naive", "지난주 그대로")}${row("prof", "요일·시간 평균")}${row("safe", "앱에 쓰는 값: max(LightGBM, 평균)")}</table>
   <p class="fine">'낮게 안내' = 실제보다 덜 붐빈다고 말한 비율. 답변서의 첫 원칙(부담을 낮게 잘못 안내하지 않기)에 따라, 정확도는 조금 내주고 이 비율을 2.5%까지 낮춘 값을 지도에 씁니다.</p>
-  <h3>3. 종합 지수 규칙</h3>
-  <ul><li>하위 값(주변 지역 혼잡 · 소리 크기 · 소리 종류·돌발성 · 밝기) 중 <b>가장 높은 값</b>이 종합입니다. 평균을 내지 않습니다.</li>
+  <h3>3. 거리 소음 센서</h3>
+  <ul><li>서울시 S-DoT 도시데이터 센서의 소음 값(${FC.street_src || "S-DoT"})을 장소 영역 안 센서(없으면 경계에서 300m 안)로 모았습니다. 센서마다 요일 × 시간별 중앙값을 내고, 장소 안 센서 중 높은 쪽(90번째 백분위)을 씁니다. 120곳 중 111곳에 센서가 있습니다.</li>
+  <li>거리 소음 50dB = 0, 85dB = 100으로 바꿔 종합 지수의 하위 값으로 씁니다.</li>
+  <li>센서는 길가 소리 크기만 알려 줍니다. 안쪽 방송·기계음 같은 소리 종류는 현장 기록으로만 알 수 있어, 센서만 있는 곳은 '거리 기준'으로 표시하고 무던함으로 추천하지 않습니다.</li></ul>
+  <h3>4. 종합 지수 규칙</h3>
+  <ul><li>하위 값(주변 지역 혼잡 · 거리 소음 · 소리 크기 · 소리 종류·돌발성 · 밝기) 중 <b>가장 높은 값</b>이 종합입니다. 평균을 내지 않습니다.</li>
   <li>0~39 무던함 · 40~69 보통 · 70~100 부담 높음(초기값).</li>
-  <li>소리·빛을 잰 적 없는 장소는 종합 지수를 '정보 부족'으로 두고 혼잡만 보여 줍니다.</li>
+  <li>거리 센서도 현장 기록도 없는 장소는 종합 지수를 '정보 부족'으로 두고 혼잡만 보여 줍니다.</li>
   <li>잰 시간이 아니면 혼잡 모양으로 짐작한 '추정'이고, 추정만으로는 무던함을 추천하지 않습니다.</li>
   <li>우리 아이가 '매우 민감'한 소리가 잡힌 장소는 다른 값과 상관없이 '주의'입니다.</li>
   <li>밝기는 센서를 웹에 여는 폰에서만 재고, 깜빡임은 '미측정'으로 표시합니다(미측정 ≠ 깜빡임 없음).</li></ul>
   <h3>한계</h3>
   <ul><li>지도의 혼잡은 통신 신호로 추정한 지역 인구라 매장 안 혼잡과 다를 수 있습니다.</li>
-  <li>아직 현장 실측이 쌓이지 않아 처음엔 대부분 장소가 '정보 부족'입니다. 쓰는 사람이 잰 기록이 쌓일수록 채워지는 구조입니다. 지금 기록은 이 폰에만 저장됩니다.</li>
+  <li>아직 현장 기록이 쌓이지 않아 처음엔 대부분 장소가 '거리 기준'입니다. 쓰는 사람이 잰 기록이 쌓일수록 채워지는 구조입니다. 지금 기록은 이 폰에만 저장됩니다.</li>
   <li>소리 크기는 폰 마이크마다 달라 어림값입니다(우리 아이 탭에서 보정).</li>
   <li>'마이크 없이 해 보기' 소리는 macOS 음성과 합성음으로 만든 시연음입니다. 실제 매장 녹음이 아닙니다.</li></ul>
   <h3>자료</h3>
-  <ul><li>서울 열린데이터광장: 서울 생활인구(행정동, OA-14991), 서울시 주요 121장소 영역(OA-21778)</li>
+  <ul><li>서울 열린데이터광장: 서울 생활인구(행정동, OA-14991), 서울시 주요 121장소 영역(OA-21778), S-DoT 소음 센서(OA-15969)</li>
   <li>행정동 경계: vuski/admdongkor (ver20250401)</li>
   <li>YAMNet: TensorFlow Models, Apache 2.0 · MediaPipe Tasks Audio</li>
-  <li>지도: OpenStreetMap, CARTO</li>
+  <li>지도: OpenStreetMap</li>
   <li>규칙: 「무던한 지도」 제안서·사전질의 답변서(KEIT 공지 2026-10-12)</li></ul>
   <p class="fine">모델 학습 코드와 검증 결과: <a href="https://github.com/kangraemin/calm-map">github.com/kangraemin/calm-map</a> · 데이터 기준 ${FC.made}</p>`;
 }
@@ -580,4 +598,23 @@ renderQuick();
 const first = (location.hash || "").slice(1);
 if (["map", "kid", "log", "about"].includes(first)) go(first);
 // 시연 영상 자동 촬영용 (화면 조작만, 데이터 변경 없음)
-window.__cm = { warm: () => loadModel(), openPlace: (cd) => { go("map"); setTimeout(() => openPlace(cd), 200); } };
+// 성능 시험용: 앱과 같은 규칙(0.975초 창, 0.5초 간격, 지수평균, 묶음 문턱)으로 소리 한 토막을 판정
+async function evalClip(pcm, rate) {
+  await loadModel();
+  const win = Math.round(rate * 0.975), hop = Math.round(rate * 0.5), e = {}, hit = {}, peak = {};
+  for (let s = 0; s + win <= pcm.length || s === 0; s += hop) {
+    let w = pcm.subarray(s, s + win); if (w.length < win) { const z = new Float32Array(win); z.set(w); w = z; }
+    const res = classifier.classify(w, rate);
+    const sc = {}; ((res && res[0] && res[0].classifications[0].categories) || []).forEach((c) => { sc[c.categoryName] = c.score; });
+    for (const g of GROUPS) {
+      if (!g.names.length) continue;
+      const r = Math.max(0, ...g.names.map((n) => sc[n] || 0));
+      e[g.id] = e[g.id] == null ? r : e[g.id] * 0.45 + r * 0.55;
+      peak[g.id] = Math.max(peak[g.id] || 0, e[g.id]);
+      if (e[g.id] >= g.th) hit[g.id] = 1;
+    }
+    if (s + win >= pcm.length) break;
+  }
+  return { hit: Object.keys(hit), peak };
+}
+window.__cm = { evalClip, warm: () => loadModel(), openPlace: (cd) => { go("map"); setTimeout(() => openPlace(cd), 200); } };

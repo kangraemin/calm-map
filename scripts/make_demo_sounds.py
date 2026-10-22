@@ -104,9 +104,9 @@ base = room(SEC, 0.015) + babble(SEC, 0.06)
 t = np.arange(int(14 * SR)) / SR
 f = 900 + 500 * np.sin(2 * np.pi * t / 4)  # 웨일 사이렌(배음 7개)
 ph = 2 * np.pi * np.cumsum(f) / SR
-sir = sum(np.sin(k * ph) / k for k in range(1, 8)) * np.interp(t, [0, 3, 8, 14], [0.02, 0.3, 0.3, 0.03])
+sir = sum(np.sin(k * ph) / k for k in range(1, 8)) * np.interp(t, [0, 1, 9, 14], [0.08, 0.3, 0.3, 0.03])
 x = base.copy()
-st = int(5 * SR)
+st = int(1.5 * SR)
 x[st:st + len(sir)] += sir
 save("siren", x)
 
