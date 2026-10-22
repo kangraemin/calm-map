@@ -147,3 +147,4 @@ dialog input{width:100%;padding:12px;border:1px solid var(--line);border-radius:
 .leaflet-tile-pane{filter:grayscale(1) brightness(1.04) contrast(.92)}
 .ring.thin{border-width:1.5px;border-color:var(--ink2)}
 .alert[hidden]{display:none}
+.mine{white-space:nowrap}
