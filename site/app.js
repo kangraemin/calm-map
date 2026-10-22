@@ -72,7 +72,7 @@ async function loadModel() {
   return classifier;
 }
 
-function resetMeter() { lastCaution = null; $("#alert").hidden = true; $("#nowNum").textContent = "–"; $("#nowWord").textContent = "듣기 전"; $("#nowWhy").textContent = ""; $("#heard").textContent = ""; $("#meter").className = "meter card"; $("#nowDial").style.setProperty("--p", 0); }
+function resetMeter() { lastCaution = null; if (!mediaStream && !clipEl) { levels = []; ema = {}; events = []; } $("#groups").innerHTML = GROUPS.map((g) => `<div class="g"><b>${g.ko}${sens(g.id) === 2 ? '<span class="mine">우리 아이</span>' : ""}</b><div class="bar"><i style="width:0%"></i></div><small></small></div>`).join(""); $("#dbNow").textContent = "– dB"; $("#dbBase").textContent = "재는 중"; $("#onsetN").textContent = "0번"; drawSpark(); $("#alert").hidden = true; $("#nowNum").textContent = "–"; $("#nowWord").textContent = "듣기 전"; $("#nowWhy").textContent = ""; $("#heard").textContent = ""; $("#meter").className = "meter card"; $("#nowDial").style.setProperty("--p", 0); }
 async function start(kind, clip) {
   await stop(false);
   $("#btnMic").disabled = true;
@@ -228,6 +228,9 @@ function render(s) {
     al.hidden = false;
     $("#nowWord").textContent = "주의";
     $("#meter").className = "meter card lv2";
+    const shown = Math.max(Math.round(s.comp), 70);
+    $("#nowNum").textContent = shown; $("#nowDial").style.setProperty("--p", shown);
+    $("#nowWhy").textContent = "주 요인: " + (lastCaution.g.ko || "민감 소리") + (s.caution ? "" : " (방금)");
     $("#alertTitle").textContent = "주의 · " + (lastCaution.g.ko || "") + (s.caution ? " 잡힘" : " 방금 잡힘");
     $("#alertBody").textContent = "우리 아이가 매우 민감한 소리예요. 헤드폰을 씌우거나 조용한 곳으로 옮겨 주세요.";
     if (s.caution && tNow - lastVibe > 4000 && navigator.vibrate) { navigator.vibrate([250, 120, 250]); lastVibe = tNow; }
@@ -393,7 +396,7 @@ async function initMap() {
   hr.addEventListener("input", () => { sel.hour = +hr.value; drawMarkers(); refreshSheet(); });
   map = L.map("map", { zoomControl: false, attributionControl: true }).setView([37.548, 126.99], 11);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
-  L.control.zoom({ position: "bottomright" }).addTo(map);
+  L.control.zoom({ position: "topright" }).addTo(map);
   layer = L.layerGroup().addTo(map);
   drawMarkers();
 }
