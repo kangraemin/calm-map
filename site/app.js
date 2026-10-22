@@ -579,3 +579,5 @@ async function renderAbout() {
 renderQuick();
 const first = (location.hash || "").slice(1);
 if (["map", "kid", "log", "about"].includes(first)) go(first);
+// 시연 영상 자동 촬영용 (화면 조작만, 데이터 변경 없음)
+window.__cm = { warm: () => loadModel(), openPlace: (cd) => { go("map"); setTimeout(() => openPlace(cd), 200); } };
