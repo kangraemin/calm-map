@@ -25,7 +25,7 @@ const GROUPS = [
 ];
 const SPEECH = ["Speech", "Male speech, man speaking", "Female speech, woman speaking", "Narration, monologue", "Conversation", "Speech synthesizer", "Child speech, kid speaking"];
 const CHIME = ["Chime", "Ding-dong", "Doorbell", "Ding", "Bell", "Jingle bell", "Wind chime", "Tubular bells", "Glockenspiel", "Vibraphone", "Change ringing (campanology)", "Church bell", "Bicycle bell", "Sine wave", "Tuning fork"];
-const KO = { Speech: "말소리", "Male speech, man speaking": "남자 말소리", "Female speech, woman speaking": "여자 말소리", Music: "음악", Siren: "사이렌", "Ambulance (siren)": "구급차 사이렌", "Emergency vehicle": "긴급차량", "Civil defense siren": "민방위 사이렌", Chime: "차임", "Ding-dong": "딩동", Bell: "종소리", Crowd: "군중", "Hubbub, speech noise, speech babble": "웅성임", "Hair dryer": "드라이어", "Vacuum cleaner": "청소기", "White noise": "백색소음", "Pink noise": "잡음", Silence: "조용함", Inside: "실내", "Inside, small room": "작은 방", "Inside, large room or hall": "넓은 실내", "Baby cry, infant cry": "아기 울음", Screaming: "비명", Shout: "고함", Alarm: "경보", Buzzer: "버저", "Beep, bleep": "삐 소리", "Narration, monologue": "낭독", Television: "TV", "Background music": "배경음악", Piano: "피아노", "Sine wave": "순음", Static: "잡음", "Mechanical fan": "환풍기", Engine: "엔진", Vehicle: "차량", "Speech synthesizer": "합성 음성", "Musical instrument": "악기", "Electronic music": "전자음악", Synthesizer: "신시사이저", "Tuning fork": "순음", Glockenspiel: "글로켄슈필", Vibraphone: "비브라폰", "Wind chime": "풍경", "Air conditioning": "에어컨", "Child speech, kid speaking": "아이 말소리", Whistle: "호루라기", Conversation: "대화", "Plucked string instrument": "현악기", Guitar: "기타(악기)", "Mallet percussion": "실로폰류", "Marimba, xylophone": "마림바", Percussion: "타악기", Spray: "분사 소리", Insect: "벌레 소리", Rustle: "바스락", Breathing: "숨소리", Snoring: "코골이", Animal: "동물 소리", Liquid: "물소리", Water: "물", Wind: "바람", "Wind noise (microphone)": "마이크 바람 소리", Outside: "바깥", "Outside, urban or manmade": "도심 바깥", "Outside, rural or natural": "자연 바깥", "Speech noise": "웅성임", Car: "자동차", Bus: "버스", Train: "기차", "Subway, metro, underground": "지하철", Footsteps: "발소리", Walk: "걷는 소리", Clapping: "손뼉", Laughter: "웃음", "Baby laughter": "아기 웃음", Giggle: "킥킥", Cough: "기침", Sneeze: "재채기", Dog: "개", Cat: "고양이", Bird: "새", Rain: "비", Thunder: "천둥", Typing: "타자", Door: "문", Knock: "노크", Tick: "똑딱", "Tick-tock": "시계 소리", Clock: "시계", Pigeon: "비둘기", Cricket: "귀뚜라미", Harmonic: "배음", Drum: "북", Singing: "노래", Choir: "합창", "Hip hop music": "힙합", "Rock music": "록", Jazz: "재즈", "Classical music": "클래식", "Music of Asia": "아시아 음악", "Christmas music": "캐럴", "Dance music": "댄스 음악", Ambient: "잔잔한 음악", "Ambient music": "잔잔한 음악", Electronica: "전자음악", "Sound effect": "효과음", Echo: "울림", Reverberation: "잔향", Hiss: "쉬익", Buzz: "웅 소리", Squeak: "끽 소리", Clang: "쨍 소리", Ding: "딩", "Police car (siren)": "경찰차 사이렌", "Fire engine, fire truck (siren)": "소방차 사이렌", Theremin: "테레민(높은 떨림음)", Noise: "잡음", Howl: "울부짖는 소리", "Car alarm": "차 경보", "Smoke detector, smoke alarm": "화재경보", "Alarm clock": "알람시계", Telephone: "전화벨", Ringtone: "벨소리", "Crying, sobbing": "울음", Blender: "믹서기", "Electric shaver, electric razor": "면도기", Drill: "드릴", Hammer: "망치", Applause: "박수", Cheering: "환호", Chatter: "수다", Babbling: "옹알이", "Pop music": "가요", "Children playing": "아이들 노는 소리", "Traffic noise, roadway noise": "차 소리", Keyboard: "키보드", "Keyboard (musical)": "건반", Ding: "딩", Doorbell: "초인종", "Jingle bell": "방울", "Tubular bells": "관종", "Church bell": "교회 종", "Bicycle bell": "자전거 벨", Wail: "울부짖음", Rumble: "웅웅 소리", Hum: "윙 소리", Microwave: "전자레인지", "Change ringing (campanology)": "종소리" };
+const KO = { Speech: "말소리", "Male speech, man speaking": "남자 말소리", "Female speech, woman speaking": "여자 말소리", Music: "음악", Siren: "사이렌", "Ambulance (siren)": "구급차 사이렌", "Emergency vehicle": "긴급차량", "Civil defense siren": "민방위 사이렌", Chime: "차임", "Ding-dong": "딩동", Bell: "종소리", Crowd: "군중", "Hubbub, speech noise, speech babble": "웅성임", "Hair dryer": "드라이어", "Vacuum cleaner": "청소기", "White noise": "백색소음", "Pink noise": "잡음", Silence: "조용함", Inside: "실내", "Inside, small room": "작은 방", "Inside, large room or hall": "넓은 실내", "Baby cry, infant cry": "아기 울음", Screaming: "비명", Shout: "고함", Alarm: "경보", Buzzer: "버저", "Beep, bleep": "삐 소리", "Narration, monologue": "낭독", Television: "TV", "Background music": "배경음악", Piano: "피아노", "Sine wave": "순음", Static: "잡음", "Mechanical fan": "환풍기", Engine: "엔진", Vehicle: "차량", "Speech synthesizer": "합성 음성", "Musical instrument": "악기", "Electronic music": "전자음악", Synthesizer: "신시사이저", "Tuning fork": "순음", Glockenspiel: "글로켄슈필", Vibraphone: "비브라폰", "Wind chime": "풍경", "Air conditioning": "에어컨", "Child speech, kid speaking": "아이 말소리", Whistle: "호루라기", Conversation: "대화", "Plucked string instrument": "현악기", Guitar: "통기타", "Mallet percussion": "실로폰류", "Marimba, xylophone": "마림바", Percussion: "타악기", Spray: "분사 소리", Insect: "벌레 소리", Rustle: "바스락", Breathing: "숨소리", Snoring: "코골이", Animal: "동물 소리", Liquid: "물소리", Water: "물", Wind: "바람", "Wind noise (microphone)": "마이크 바람 소리", Outside: "바깥", "Outside, urban or manmade": "도심 바깥", "Outside, rural or natural": "자연 바깥", "Speech noise": "웅성임", Car: "자동차", Bus: "버스", Train: "기차", "Subway, metro, underground": "지하철", Footsteps: "발소리", Walk: "걷는 소리", Clapping: "손뼉", Laughter: "웃음", "Baby laughter": "아기 웃음", Giggle: "킥킥", Cough: "기침", Sneeze: "재채기", Dog: "개", Cat: "고양이", Bird: "새", Rain: "비", Thunder: "천둥", Typing: "타자", Door: "문", Knock: "노크", Tick: "똑딱", "Tick-tock": "시계 소리", Clock: "시계", Pigeon: "비둘기", Cricket: "귀뚜라미", Harmonic: "배음", Drum: "북", Singing: "노래", Choir: "합창", "Hip hop music": "힙합", "Rock music": "록", Jazz: "재즈", "Classical music": "클래식", "Music of Asia": "아시아 음악", "Christmas music": "캐럴", "Dance music": "댄스 음악", Ambient: "잔잔한 음악", "Ambient music": "잔잔한 음악", Electronica: "전자음악", "Sound effect": "효과음", Echo: "울림", Reverberation: "잔향", Hiss: "쉬익", Buzz: "웅 소리", Squeak: "끽 소리", Clang: "쨍 소리", Ding: "딩", "Police car (siren)": "경찰차 사이렌", "Fire engine, fire truck (siren)": "소방차 사이렌", Theremin: "테레민(높은 떨림음)", Noise: "잡음", Howl: "울부짖는 소리", "Car alarm": "차 경보", "Smoke detector, smoke alarm": "화재경보", "Alarm clock": "알람시계", Telephone: "전화벨", Ringtone: "벨소리", "Crying, sobbing": "울음", Blender: "믹서기", "Electric shaver, electric razor": "면도기", Drill: "드릴", Hammer: "망치", Applause: "박수", Cheering: "환호", Chatter: "수다", Babbling: "옹알이", "Pop music": "가요", "Children playing": "아이들 노는 소리", "Traffic noise, roadway noise": "차 소리", Keyboard: "키보드", "Keyboard (musical)": "건반", Ding: "딩", Doorbell: "초인종", "Jingle bell": "방울", "Tubular bells": "관종", "Church bell": "교회 종", "Bicycle bell": "자전거 벨", Wail: "울부짖음", Rumble: "웅웅 소리", Hum: "윙 소리", Microwave: "전자레인지", "Change ringing (campanology)": "종소리" };
 
 const SENS_ITEMS = [
   { id: "alarm", ko: "경보음·사이렌", hint: "화재경보, 구급차, 삐 소리" },
@@ -72,6 +72,7 @@ async function loadModel() {
   return classifier;
 }
 
+function resetMeter() { lastCaution = null; $("#alert").hidden = true; $("#nowNum").textContent = "–"; $("#nowWord").textContent = "듣기 전"; $("#nowWhy").textContent = ""; $("#heard").textContent = ""; $("#meter").className = "meter card"; $("#nowDial").style.setProperty("--p", 0); }
 async function start(kind, clip) {
   await stop(false);
   $("#btnMic").disabled = true;
@@ -81,7 +82,8 @@ async function start(kind, clip) {
     sr = actx.sampleRate;
     ring = new Float32Array(Math.round(sr * 0.975)); ringPos = 0; filled = 0;
     levels = []; ema = {}; events = []; blockSum = 0; blockN = 0;
-    $("#alert").hidden = true; $("#nowNum").textContent = "–"; $("#nowWord").textContent = "듣는 중"; $("#nowWhy").textContent = ""; $("#heard").textContent = ""; $("#meter").className = "meter card"; $("#nowDial").style.setProperty("--p", 0);
+    resetMeter();
+    $("#nowWord").textContent = "듣는 중"; $("#nowWhy").textContent = ""; $("#heard").textContent = ""; $("#meter").className = "meter card"; $("#nowDial").style.setProperty("--p", 0);
     session = { kind, clip: clip || null, t0: Date.now(), loud: [], type: [], groups: {}, onsets: 0, announce: 0, top: {} };
     if (kind === "mic") {
       mediaStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
@@ -199,7 +201,7 @@ function tick() {
   render({ comp, main, hits, caution, loudIdx, typeIdx, avg, la90: enough ? la90 : NaN, cats, onset });
 }
 
-let lastVibe = 0;
+let lastVibe = 0, lastCaution = null;
 function render(s) {
   const lv = level(s.comp);
   $("#meter").className = "meter card lv" + lv.i;
@@ -217,14 +219,18 @@ function render(s) {
   $("#dbBase").textContent = isNaN(s.la90) ? "재는 중" : Math.round(dbA(s.la90)) + " dB";
   $("#onsetN").textContent = (session ? session.onsets : 0) + "번";
   const heard = [], seen = new Set();
-  for (const c of s.cats.slice(0, 8)) { const k = KO[c.categoryName] || "기타 소리"; if (seen.has(k) || c.score < 0.05) continue; seen.add(k); heard.push(`${k} ${Math.round(c.score * 100)}%`); if (heard.length === 4) break; }
+  for (const c of s.cats.slice(0, 8)) { const k = KO[c.categoryName] || "그 밖의 소리"; if (seen.has(k) || c.score < 0.05) continue; seen.add(k); heard.push(`${k} ${Math.round(c.score * 100)}%`); if (heard.length === 4) break; }
   $("#heard").textContent = "모델이 들은 것: " + (heard.join(" · ") || "뚜렷한 소리 없음");
-  const al = $("#alert");
-  if (s.caution) {
+  const al = $("#alert"), tNow = Date.now();
+  if (s.caution) lastCaution = { g: s.caution, t: tNow };
+  // 민감 소리가 끝나도 8초 동안은 '주의'를 유지한다 (금방 다시 날 수 있어서)
+  if (lastCaution && tNow - lastCaution.t < 8000) {
     al.hidden = false;
-    $("#alertTitle").textContent = "주의 · " + (s.caution.ko || "") + " 잡힘";
+    $("#nowWord").textContent = "주의";
+    $("#meter").className = "meter card lv2";
+    $("#alertTitle").textContent = "주의 · " + (lastCaution.g.ko || "") + (s.caution ? " 잡힘" : " 방금 잡힘");
     $("#alertBody").textContent = "우리 아이가 매우 민감한 소리예요. 헤드폰을 씌우거나 조용한 곳으로 옮겨 주세요.";
-    if (Date.now() - lastVibe > 4000 && navigator.vibrate) { navigator.vibrate([250, 120, 250]); lastVibe = Date.now(); }
+    if (s.caution && tNow - lastVibe > 4000 && navigator.vibrate) { navigator.vibrate([250, 120, 250]); lastVibe = tNow; }
   } else al.hidden = true;
   drawSpark();
 }
@@ -362,7 +368,7 @@ function verdictOf(c) {
   if (c.comp == null) return { cls: "unknown", title: "정보 부족", body: "거리 소음 센서도 현장 기록도 아직 없어요. 종합 지수는 보류하고 주변 지역 혼잡만 보여 줘요." };
   const lv = level(c.comp);
   if (c.caution) return { cls: "caution", title: "주의 · " + c.caution.ko, body: "우리 아이가 매우 민감한 자극이 이 장소에서 잡혔어요. 다른 값이 낮아도 무던함으로 추천하지 않아요." };
-  if (c.street && !c.own) return { cls: lv.i === 2 ? "caution" : "", title: (lv.i === 0 ? "덜 힘든 편" : lv.word) + " (거리 기준)", body: "거리 소음 센서(S-DoT)와 혼잡 예측 중 더 힘든 쪽 값이에요(주 요인: " + c.main + "). 안쪽 방송·기계음 같은 소리 종류는 아직 몰라서, 직접 재기 전에는 무던함으로 추천하지 않아요. 현장에서 '지금 여기 소리 듣기'로 확인하세요." };
+  if (c.street && !c.own) return { cls: lv.i === 2 ? "caution" : "", title: (lv.i === 0 ? "덜 힘든 편" : lv.word) + (c.main === "거리 소음" ? " (거리 소음 기준)" : " (혼잡 예측 기준)"), body: "거리 소음 센서(S-DoT)와 혼잡 예측 중 더 힘든 쪽 값이에요(주 요인: " + c.main + "). 안쪽 방송·기계음 같은 소리 종류는 아직 몰라서, 직접 재기 전에는 무던함으로 추천하지 않아요. 현장에서 '지금 여기 소리 듣기'로 확인하세요." };
   if (lv.i === 0 && c.est) return { cls: "", title: "무던함 후보 (추정)", body: "이 시간엔 직접 잰 기록이 없어 혼잡 예측으로 짐작한 값이에요. 실측 전까지 무던함으로 추천하지 않아요." };
   return { cls: lv.i === 2 ? "caution" : "", title: lv.word + (c.est ? " (추정)" : " (실측)"), body: "주 요인: " + c.main };
 }
@@ -491,18 +497,19 @@ function storyLines(cd) {
   const p = FC.places[cd], dow = selDow(), h = sel.hour, c = cell(cd, dow, h);
   const dayName = $$("#days button")[sel.day]?.textContent || "오늘";
   const enter = { "공원": ["bench", "넓은 길을 따라 천천히 걸어요."], "고궁·문화유산": ["ticket", "입구에서 표를 보여 주고 들어가요."], "발달상권": ["door", "가게 문을 밀고 들어가요."], "관광특구": ["bench", "거리를 따라 천천히 걸어요."], "인구밀집지역": ["train", "역에서 개찰구를 지나 나가요."] }[p.cat] || ["door", "문을 밀고 들어가요."];
-  let expect;
-  if (c.groups && c.groups.has("announce")) expect = ["speaker", "안내방송이 나올 수 있어요. 딩동 소리가 먼저 나요."];
-  else if (c.groups && c.groups.has("alarm")) expect = ["speaker", "삐 소리나 사이렌이 들릴 수 있어요."];
-  else if (c.groups && c.groups.has("machine")) expect = ["speaker", "화장실에서 드라이어 소리가 날 수 있어요."];
-  else if (crowdLv(cd, dow, h) >= 2) expect = ["people", "사람이 많을 수 있어요. 어른 옆에서 걸어요."];
-  else if (c.streetDb != null && c.streetDb >= 62) expect = ["speaker", "길가에서 차 소리가 크게 들릴 수 있어요."];
-  else if (c.comp == null) expect = ["speaker", "아직 아무도 소리를 재지 않은 곳이에요. 입구에서 잠깐 들어 보고 들어가요."];
-  else expect = ["calm", "사람이 많지 않을 수 있어요."];
+  // 소리 한 줄 + 사람 한 줄 (장소 기록·센서 값으로 고름)
+  let sound;
+  if (c.groups && c.groups.has("announce")) sound = ["speaker", "안내방송이 나올 수 있어요. 딩동 소리가 먼저 나요."];
+  else if (c.groups && c.groups.has("alarm")) sound = ["speaker", "삐 소리나 사이렌이 들릴 수 있어요."];
+  else if (c.groups && c.groups.has("machine")) sound = ["speaker", "화장실에서 드라이어 소리가 날 수 있어요."];
+  else if (c.streetDb != null && c.streetDb >= 58) sound = ["speaker", `길가에서 차 소리가 들릴 수 있어요(약 ${Math.round(c.streetDb)}dB).`];
+  else if (c.streetDb != null) sound = ["calm", "길가 소리는 크지 않은 편이에요."];
+  else sound = ["speaker", "아직 아무도 소리를 재지 않은 곳이에요. 입구에서 잠깐 들어 보고 들어가요."];
+  const people = crowdLv(cd, dow, h) >= 2 ? ["people", "사람이 많을 수 있어요. 어른 옆에서 걸어요."] : ["calm", "사람이 많지 않을 수 있어요."];
   const saved = store.get("cards", {})[cd];
   const lines = [
     ["go", `${dayName} ${h}시에 ${p.nm}에 가요.`],
-    enter, expect,
+    enter, sound, people,
     ["phones", "소리가 크면 헤드폰을 써요."],
     ["hand", "힘들면 같이 온 어른 손을 두 번 꼭 잡아요. 그러면 조용한 곳으로 가요."],
   ];
@@ -514,7 +521,7 @@ function openStory(cd) {
   $("#story").innerHTML = `<div class="scard head"><p>미리 보는 카드 · 아이와 같이 읽어요</p></div>` + lines.map(([ic, t], i) => `<div class="scard">${ICON[ic]}<p data-i="${i}">${t}</p></div>`).join("");
   $("#story").dataset.cd = cd;
   $("#storyEdit").textContent = "문장 고치기";
-  $("#dlgCard").showModal();
+  $("#dlgCard").showModal(); $("#dlgCard").scrollTop = 0;
 }
 $("#storyEdit").addEventListener("click", () => {
   const ps = $$("#story p[data-i]"), on = ps[0].contentEditable !== "true";
@@ -622,4 +629,4 @@ async function evalClip(pcm, rate) {
   }
   return { hit: Object.keys(hit), peak };
 }
-window.__cm = { evalClip, warm: () => loadModel(), openPlace: (cd) => { go("map"); setTimeout(() => openPlace(cd), 200); } };
+window.__cm = { evalClip, resetMeter, warm: () => loadModel(), openPlace: (cd) => { go("map"); setTimeout(() => openPlace(cd), 200); } };

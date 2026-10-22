@@ -148,3 +148,8 @@ dialog input{width:100%;padding:12px;border:1px solid var(--line);border-radius:
 .ring.thin{border-width:1.5px;border-color:var(--ink2)}
 .alert[hidden]{display:none}
 .mine{white-space:nowrap}
+
+/* 범례를 지도 위에 얹어 첫 화면에서 보이게 */
+.mapwrap{position:relative}
+.mapwrap .legend{position:absolute;left:8px;right:8px;bottom:8px;z-index:500;margin:0;padding:6px 10px;background:color-mix(in srgb,var(--paper) 92%,transparent);border:1px solid var(--line);border-radius:10px;font-size:11.5px}
+#dlgCard{max-height:calc(100vh - 32px);overflow:auto}
