@@ -1,0 +1,42 @@
+{
+ "train": [
+  "2026-05-01",
+  "2026-07-17"
+ ],
+ "test": [
+  "2026-07-18",
+  "2026-07-31"
+ ],
+ "places": 120,
+ "test_rows": 40320,
+ "methods": {
+  "gbdt": {
+   "n": 40320,
+   "mape": 3.31,
+   "level_acc": 78.5,
+   "under": 6.0,
+   "busy_hit": 88.8
+  },
+  "safe": {
+   "n": 40320,
+   "mape": 4.43,
+   "level_acc": 72.2,
+   "under": 2.5,
+   "busy_hit": 95.3
+  },
+  "naive": {
+   "n": 40320,
+   "mape": 4.36,
+   "level_acc": 76.4,
+   "under": 9.7,
+   "busy_hit": 80.7
+  },
+  "prof": {
+   "n": 40320,
+   "mape": 4.31,
+   "level_acc": 73.9,
+   "under": 5.2,
+   "busy_hit": 91.2
+  }
+ }
+}

@@ -1,0 +1,4 @@
+video/
+*.wav
+.DS_Store
+__pycache__/

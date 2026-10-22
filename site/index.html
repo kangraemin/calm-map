@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>무던한 지도</title>
+<meta name="description" content="발달장애 아이와 나가기 전 10초. 폰이 지금 여기 소리의 종류를 알아듣고, 서울 120곳이 언제 덜 붐비는지 알려 줍니다.">
+<meta property="og:title" content="무던한 지도 (Calm Map)">
+<meta property="og:description" content="폰이 지금 여기 소리를 알아듣고, 아이와 덜 시끄러운 시간을 알려 주는 지도">
+<meta name="theme-color" content="#f6f3ee">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23234a3f'/%3E%3Cpath d='M7 20c3-6 6-6 9 0s6 6 9 0' stroke='%23f6f3ee' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M7 20c3-6 6-6 9 0s6 6 9 0"/></svg><b>무던한 지도</b></div>
+  <button class="link" data-go="about">어떻게 만들었나요</button>
+</header>
+
+<main>
+<!-- 소리 -->
+<section id="v-sound" class="view on">
+  <div class="intro" id="intro">
+    <h1>아이와 나가기 전 10초,<br>현장에서는 지금 들리는 소리.</h1>
+    <p>폰이 소리의 <b>크기</b>가 아니라 <b>종류</b>를 알아듣고, 우리 아이가 힘든 소리가 나면 바로 진동으로 알려 줘요. 소리는 폰 밖으로 나가지 않아요.</p>
+  </div>
+
+  <div class="meter card" id="meter">
+    <div class="meter-head">
+      <div>
+        <div class="kicker">지금 여기 소리 부담</div>
+        <div class="big" id="nowWord">듣기 전</div>
+        <div class="sub" id="nowWhy">아래 버튼을 누르면 시작해요</div>
+      </div>
+      <div class="dial" id="nowDial"><span id="nowNum">–</span></div>
+    </div>
+    <div class="alert" id="alert" hidden><b id="alertTitle"></b><span id="alertBody"></span></div>
+    <div class="groups" id="groups"></div>
+    <div class="levelrow">
+      <div><span class="kicker">소리 크기(어림)</span><b id="dbNow">– dB</b></div>
+      <div><span class="kicker">평소 바닥 소음 LA90</span><b id="dbBase">– dB</b></div>
+      <div><span class="kicker">갑자기 커짐</span><b id="onsetN">0번</b></div>
+    </div>
+    <canvas id="spark" height="56" aria-label="최근 60초 소리 크기"></canvas>
+    <div class="heard" id="heard"></div>
+    <div class="btnrow">
+      <button class="primary" id="btnMic">지금 여기 소리 듣기</button>
+      <button class="ghost" id="btnStop" hidden>멈추고 기록하기</button>
+    </div>
+    <div class="samples">
+      <span class="kicker">마이크 없이 해 보기 · 합성 시연음</span>
+      <div class="chips" id="samples">
+        <button data-clip="calm">조용한 매장</button>
+        <button data-clip="announce">딩동 안내방송</button>
+        <button data-clip="siren">사이렌</button>
+        <button data-clip="dryer">핸드드라이어</button>
+      </div>
+    </div>
+    <p class="fine" id="modelState">소리 분류: Google YAMNet(AudioSet 521종) · 폰 안에서 실행 · 4MB</p>
+  </div>
+
+  <div class="card quick">
+    <div class="kicker">우리 아이가 힘든 소리</div>
+    <div class="chips sens" id="quickSens"></div>
+    <p class="fine">누르면 <b>매우 민감</b>으로 바뀌어요. 매우 민감한 소리는 다른 값이 낮아도 '주의'로 알려요.</p>
+  </div>
+</section>
+
+<!-- 지도 -->
+<section id="v-map" class="view">
+  <div class="mapbar">
+    <div class="chips days" id="days"></div>
+    <div class="hourline">
+      <input type="range" id="hour" min="7" max="22" step="1" aria-label="시간">
+      <b id="hourLabel"></b>
+    </div>
+    <div class="chips cats" id="cats"></div>
+  </div>
+  <div id="map"></div>
+  <div class="legend">
+    <span><i class="sw s0"></i>여유</span><span><i class="sw s1"></i>보통</span><span><i class="sw s2"></i>약간 붐빔</span><span><i class="sw s3"></i>붐빔</span>
+    <span class="sep"></span><span><i class="ring dashed"></i>소리 정보 없음</span><span><i class="ring"></i>소리 잰 곳</span>
+  </div>
+  <div class="sheet" id="sheet" hidden>
+    <button class="close" id="sheetClose" aria-label="닫기">×</button>
+    <div id="sheetBody"></div>
+  </div>
+</section>
+
+<!-- 우리 아이 -->
+<section id="v-kid" class="view">
+  <div class="card">
+    <h2>우리 아이 설정</h2>
+    <p class="fine">이 폰에만 저장돼요. 진단명·행동 기록은 받지 않아요.</p>
+    <div id="sensList"></div>
+  </div>
+  <div class="card">
+    <h3>마이크 보정</h3>
+    <p class="fine">폰마다 마이크가 달라 소리 크기는 어림값이에요. 조용한 방이 40dB 근처로 나오게 맞추면 더 정확해져요.</p>
+    <div class="hourline"><input type="range" id="calib" min="80" max="115" step="1"><b id="calibLabel"></b></div>
+  </div>
+</section>
+
+<!-- 기록 -->
+<section id="v-log" class="view">
+  <div class="card">
+    <h2>내 기록</h2>
+    <p class="fine">원음은 저장하지 않아요. 남는 것은 장소·시각·소리 종류·부담값뿐이에요.</p>
+    <div id="logStats" class="stats"></div>
+    <div id="logList"></div>
+    <button class="ghost" id="logClear">이 폰의 기록 모두 지우기</button>
+  </div>
+</section>
+
+<!-- 만든 방법 -->
+<section id="v-about" class="view">
+  <div class="card prose" id="aboutBody"></div>
+</section>
+</main>
+
+<nav class="tabs">
+  <button data-go="sound" class="on"><svg viewBox="0 0 24 24"><path d="M4 12h2M8 8v8M12 5v14M16 8v8M20 12h0"/></svg>소리</button>
+  <button data-go="map"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>지도</button>
+  <button data-go="kid"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M6 20c0-4 3-6 6-6s6 2 6 6"/></svg>우리 아이</button>
+  <button data-go="log"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 9h6M9 13h6"/></svg>기록</button>
+</nav>
+
+<!-- 장소 고르기 (기록 저장) -->
+<dialog id="dlgSave">
+  <form method="dialog">
+    <h3>어디서 쟀나요?</h3>
+    <p class="fine" id="saveSummary"></p>
+    <input id="placeSearch" placeholder="장소 이름 찾기 (예: 타임스퀘어, 박물관)" autocomplete="off">
+    <div id="placePick" class="pick"></div>
+    <div class="btnrow"><button value="cancel" class="ghost">저장 안 함</button></div>
+  </form>
+</dialog>
+
+<!-- 미리 보는 카드 -->
+<dialog id="dlgCard" class="cardview">
+  <div class="story" id="story"></div>
+  <div class="btnrow">
+    <button class="ghost" id="storyEdit">문장 고치기</button>
+    <button class="primary" id="storyClose">닫기</button>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
